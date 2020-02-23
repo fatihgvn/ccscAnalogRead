@@ -1,0 +1,50 @@
+
+ROM used:   348/32768 (1%)
+            348/32768 (1%) including unused fragments
+
+            0.4 Average locations per line
+            17.4 Average locations per statement
+
+RAM used:   24/2048 (1%) at main() level
+            26/2048 (1%) worst case
+
+Stack used: 3 worst case (1 in main + 2 for interrupts)
+Stack size: 31
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+   51    20 100  ccscAnalogRead.c
+   13     0   0  ccscAnalogRead.h
+  775     0   0  ..\..\..\..\..\Program Files (x86)\PICC\Devices\18F2550.h
+----- -----
+  839    20 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     40   6    1             @delay_ms1
+0    104  15    0   356  4.7  main
+0     40   6    1    40  1.7  readAnalog
+0     18   3    0    54  1.2  EXT_isr
+ Inline         0             @cinit1
+
+Program metrics:
+    Functions               3
+    Statements              20
+    Comments                144
+    Volume (V)              562
+    Difficulty (D)          7.3
+    Effort to implement (E) 4096
+    Time to implement (T)   4 minutes
+    Est Delivered Bugs (B)  0
+    Cyclomatic Complexity   1
+    Maintainability (MI)    65
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00002     4  0  
+00004-00006     0  4  
+00008-00094   142  0  
+00096-07FFE   202  32416  
+
+
+

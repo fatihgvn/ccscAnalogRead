@@ -1,0 +1,6 @@
+ÀÄccscAnalogRead
+   ÃÄmain  0/104  Ram=0
+   ³  ÃÄ@cinit1  (Inline)  Ram=0
+   ³  ÀÄreadAnalog  0/40  Ram=1
+   ÀÄEXT_isr  0/18  Ram=0
+      ÀÄ@delay_ms1  0/40  Ram=1

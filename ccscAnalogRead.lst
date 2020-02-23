@@ -1,0 +1,235 @@
+CCS PCH C Compiler, Version 5.015, 5967               23-Feb-20 23:55
+
+               Filename:   C:\Users\Fatih\Documents\GitHub\ccscAnalogRead\ccscAnalogRead.lst
+
+               ROM used:   348 bytes (1%)
+                           Largest free fragment is 32416
+               RAM used:   24 (1%) at main() level
+                           26 (1%) worst case
+               Stack used: 3 locations (1 in main + 2 for interrupts)
+               Stack size: 31
+
+*
+0000:  GOTO   00F8
+*
+0008:  MOVWF  04
+000A:  MOVFF  FD8,05
+000E:  MOVFF  FE0,06
+0012:  MOVLB  0
+0014:  MOVFF  FE9,0C
+0018:  MOVFF  FEA,07
+001C:  MOVFF  FE1,08
+0020:  MOVFF  FE2,09
+0024:  MOVFF  FD9,0A
+0028:  MOVFF  FDA,0B
+002C:  MOVFF  FF3,12
+0030:  MOVFF  FF4,13
+0034:  MOVFF  FFA,14
+0038:  MOVFF  00,0E
+003C:  MOVFF  01,0F
+0040:  MOVFF  02,10
+0044:  MOVFF  03,11
+0048:  BTFSS  FF0.4
+004A:  GOTO   0054
+004E:  BTFSC  FF0.1
+0050:  GOTO   00BE
+0054:  MOVFF  0E,00
+0058:  MOVFF  0F,01
+005C:  MOVFF  10,02
+0060:  MOVFF  11,03
+0064:  MOVFF  0C,FE9
+0068:  MOVFF  07,FEA
+006C:  BSF    07.7
+006E:  MOVFF  08,FE1
+0072:  MOVFF  09,FE2
+0076:  MOVFF  0A,FD9
+007A:  MOVFF  0B,FDA
+007E:  MOVFF  12,FF3
+0082:  MOVFF  13,FF4
+0086:  MOVFF  14,FFA
+008A:  MOVF   04,W
+008C:  MOVFF  06,FE0
+0090:  MOVFF  05,FD8
+0094:  RETFIE 0
+.................... #include <ccscAnalogRead.h> 
+.................... #include <18F2550.h> 
+.................... //////////// Standard Header file for the PIC18F2550 device //////////////// 
+.................... /////////////////////////////////////////////////////////////////////////// 
+.................... ////        (C) Copyright 1996, 2013 Custom Computer Services          //// 
+.................... //// This source code may only be used by licensed users of the CCS C  //// 
+.................... //// compiler.  This source code may only be distributed to other      //// 
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction //// 
+.................... //// or distribution is permitted without written permission.          //// 
+.................... //// Derivative programs created using this software in object code    //// 
+.................... //// form are not restricted in any way.                               //// 
+.................... /////////////////////////////////////////////////////////////////////////// 
+.................... #device PIC18F2550 
+....................  
+.................... #list 
+....................  
+.................... #device ADC=10 
+....................  
+.................... #FUSES NOWDT                    //No Watch Dog Timer 
+.................... #FUSES WDT128                   //Watch Dog Timer uses 1:128 Postscale 
+.................... #FUSES NOBROWNOUT               //No brownout reset 
+.................... #FUSES NOLVP                    //No low voltage prgming, B3(PIC16) or B5(PIC18) used for I/O 
+.................... #FUSES NOXINST                  //Extended set extension and Indexed Addressing mode disabled (Legacy mode) 
+....................  
+....................   
+.................... #use delay(crystal=20000000) 
+0096:  CLRF   FEA
+0098:  MOVLW  19
+009A:  MOVWF  FE9
+009C:  MOVF   FEF,W
+009E:  BZ    00BA
+00A0:  MOVLW  06
+00A2:  MOVWF  01
+00A4:  CLRF   00
+00A6:  DECFSZ 00,F
+00A8:  BRA    00A6
+00AA:  DECFSZ 01,F
+00AC:  BRA    00A4
+00AE:  MOVLW  7B
+00B0:  MOVWF  00
+00B2:  DECFSZ 00,F
+00B4:  BRA    00B2
+00B6:  DECFSZ FEF,F
+00B8:  BRA    00A0
+00BA:  GOTO   00C6 (RETURN)
+....................  
+....................  
+....................  
+.................... #define led pin_c0 
+.................... #define exled pin_c1 
+....................  
+.................... int16 readAnalog(int8); 
+....................  
+.................... int16 pot = 0; 
+....................  
+.................... void main() 
+*
+00F8:  CLRF   FF8
+00FA:  BCF    FD0.7
+00FC:  BSF    07.7
+00FE:  CLRF   17
+0100:  CLRF   16
+0102:  MOVF   FC1,W
+0104:  ANDLW  C0
+0106:  IORLW  0F
+0108:  MOVWF  FC1
+010A:  MOVLW  07
+010C:  MOVWF  FB4
+.................... { 
+....................    set_tris_c(0x00); 
+010E:  MOVLW  00
+0110:  MOVWF  F94
+....................    set_tris_a(0xff); 
+0112:  MOVLW  FF
+0114:  MOVWF  F92
+....................    set_tris_b(0xff); 
+0116:  MOVWF  F93
+....................    setup_adc_ports(AN0); 
+0118:  MOVF   FC1,W
+011A:  ANDLW  C0
+011C:  IORLW  0E
+011E:  MOVWF  FC1
+....................    setup_adc(ADC_CLOCK_DIV_2|ADC_TAD_MUL_0); 
+0120:  MOVF   FC0,W
+0122:  ANDLW  C0
+0124:  MOVWF  FC0
+0126:  BSF    FC0.7
+0128:  BSF    FC2.0
+....................     
+....................    ext_int_edge(2,L_TO_H); 
+012A:  BSF    FF1.4
+....................    enable_interrupts(INT_EXT2); 
+012C:  BSF    FF0.4
+....................    enable_interrupts(GLOBAL); 
+012E:  MOVLW  C0
+0130:  IORWF  FF2,F
+....................  
+....................     
+....................    output_low(exled); 
+0132:  BCF    F94.1
+0134:  BCF    F8B.1
+....................     
+....................     
+....................    while(TRUE) 
+....................    { 
+....................       pot = readAnalog(0); 
+0136:  CLRF   18
+0138:  BRA    00D0
+013A:  MOVFF  02,17
+013E:  MOVFF  01,16
+....................       if(pot>512) 
+0142:  MOVF   17,W
+0144:  SUBLW  01
+0146:  BC    0158
+0148:  XORLW  FF
+014A:  BNZ   0152
+014C:  MOVF   16,W
+014E:  SUBLW  00
+0150:  BC    0158
+....................          output_high(led); 
+0152:  BCF    F94.0
+0154:  BSF    F8B.0
+0156:  BRA    015C
+....................       else 
+....................          output_low(led); 
+0158:  BCF    F94.0
+015A:  BCF    F8B.0
+015C:  BRA    0136
+....................    } 
+....................  
+.................... } 
+....................  
+015E:  SLEEP 
+.................... int16 readAnalog(int8 ch){ 
+....................    set_adc_channel(ch); 
+*
+00D0:  RLCF   18,W
+00D2:  MOVWF  00
+00D4:  RLCF   00,F
+00D6:  MOVLW  FC
+00D8:  ANDWF  00,F
+00DA:  MOVF   FC2,W
+00DC:  ANDLW  C3
+00DE:  IORWF  00,W
+00E0:  MOVWF  FC2
+....................    return read_adc(); 
+00E2:  BSF    FC2.1
+00E4:  BTFSC  FC2.1
+00E6:  BRA    00E4
+00E8:  MOVFF  FC4,03
+00EC:  MOVFF  FC3,01
+00F0:  MOVFF  FC4,02
+00F4:  GOTO   013A (RETURN)
+.................... } 
+....................  
+....................  
+.................... #INT_EXT2 
+.................... void  EXT_isr(void)  
+.................... { 
+....................    clear_interrupt(INT_EXT2); 
+*
+00BE:  BCF    FF0.1
+....................    delay_ms(10); 
+00C0:  MOVLW  0A
+00C2:  MOVWF  19
+00C4:  BRA    0096
+....................    output_toggle(exled); 
+00C6:  BCF    F94.1
+00C8:  BTG    F8B.1
+....................     
+00CA:  BCF    FF0.1
+00CC:  GOTO   0054
+.................... } 
+
+Configuration Fuses:
+   Word  1: CC04   PLL5 CPUDIV1 NOUSBDIV HS FCMEN IESO
+   Word  2: 0E38   PUT NOBROWNOUT BORV21 VREGEN NOWDT WDT128
+   Word  3: 8700   CCP2C1 PBADEN LPT1OSC MCLR
+   Word  4: 0081   STVREN NOLVP NOXINST NODEBUG
+   Word  5: C00F   NOPROTECT NOCPB NOCPD
+   Word  6: E00F   NOWRT NOWRTC NOWRTB NOWRTD
+   Word  7: 400F   NOEBTR NOEBTRB

@@ -1,0 +1,23 @@
+[PROJECT]
+Target=ccscAnalogRead.hex
+Processor_Text=PIC18F2550
+CCSVerions=5.015
+Compiler=PCH
+CCSVersion=5.015
+[Target Data]
+FileList=ccscAnalogRead.c
+[Directories]
+Include=C:\Program Files (x86)\PICC\Devices\;C:\Program Files (x86)\PICC\Drivers\
+[C:\Users\Fatih\Documents\GitHub\ccscAnalogRead\ccscAnalogRead]
+Type=4
+[mru-list]
+1=ccscAnalogRead.c
+[Opened Files]
+1=ccscAnalogRead.c
+2=ccscAnalogRead.h
+3=
+[ccscAnalogRead.c]
+Type=4
+[Units]
+Count=1
+1=ccscAnalogRead (main)
